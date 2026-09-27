@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Rocket to the Moon with You 💖</title>
+    <title>Strawberry Piggy Love 🍓🐷</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -14,9 +14,9 @@
     <style>
         body {
             font-family: 'Prompt', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            background: linear-gradient(135deg, #fbcfe8 0%, #f472b6 50%, #f43f5e 100%);
             min-height: 100vh;
-            color: #f8fafc;
+            color: #881337;
             overflow-x: hidden;
         }
         
@@ -24,20 +24,20 @@
             font-family: 'Mali', cursive;
         }
 
-        /* Glassmorphism Effect */
+        /* Glassmorphism Pink Effect */
         .glass-card {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(225, 29, 72, 0.15);
         }
 
         .glass-card-light {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            color: #334155;
+            border: 2px solid #fbcfe8;
+            color: #881337;
         }
 
         /* Envelope Animation */
@@ -49,11 +49,11 @@
             position: relative;
             width: 320px;
             height: 220px;
-            background: #f43f5e;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
+            background: #fb7185;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
             cursor: pointer;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 25px -5px rgba(225, 29, 72, 0.3);
             transition: transform 0.4s ease;
         }
 
@@ -68,12 +68,12 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 160px solid #e11d48;
-            border-right: 160px solid #e11d48;
-            border-bottom: 110px solid #be123c;
+            border-left: 160px solid #f43f5e;
+            border-right: 160px solid #f43f5e;
+            border-bottom: 110px solid #e11d48;
             border-top: 110px solid transparent;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
             z-index: 3;
         }
 
@@ -85,7 +85,7 @@
             height: 0;
             border-left: 160px solid transparent;
             border-right: 160px solid transparent;
-            border-top: 120px solid #fb7185;
+            border-top: 120px solid #fda4af;
             transform-origin: top;
             transition: transform 0.6s ease-in-out 0.2s, z-index 0.2s ease-in-out 0.2s;
             z-index: 4;
@@ -104,7 +104,7 @@
             width: 290px;
             height: 190px;
             background: #fff;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 15px;
             transition: transform 0.6s ease-in-out 0.5s, height 0.6s ease-in-out 0.5s;
             z-index: 2;
@@ -118,7 +118,7 @@
             overflow-y: auto;
         }
 
-        /* Heart Floating Animation */
+        /* Floating Strawberry & Hearts */
         @keyframes floatUp {
             0% {
                 transform: translateY(100vh) scale(0.5) rotate(0deg);
@@ -130,33 +130,11 @@
             }
         }
 
-        .floating-heart {
+        .floating-item {
             position: fixed;
             pointer-events: none;
             z-index: 0;
             animation: floatUp linear infinite;
-        }
-
-        /* Rocket Animation */
-        @keyframes rocketFly {
-            0% {
-                transform: translate(-100px, 100vh) rotate(45deg);
-            }
-            100% {
-                transform: translate(110vw, -100px) rotate(45deg);
-            }
-        }
-
-        .rocket {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-            animation: rocketFly 15s linear infinite;
-        }
-
-        /* Moon Glow */
-        .moon {
-            box-shadow: 0 0 50px #fef08a, 0 0 100px rgba(254, 240, 138, 0.4);
         }
 
         /* Click Particles */
@@ -181,66 +159,67 @@
             width: 4px;
         }
         .letter::-webkit-scrollbar-thumb {
-            background: #fda4af;
+            background: #f472b6;
             border-radius: 4px;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between min-h-screen p-4 sm:p-6 relative select-none" onclick="createClickHeart(event)">
+<body class="flex flex-col items-center justify-between min-h-screen p-4 sm:p-6 relative select-none" onclick="handleFirstTouch(event)">
 
-    <!-- Background Moon & Stars -->
-    <div class="fixed top-10 right-10 w-28 h-28 sm:w-40 sm:h-40 bg-amber-100 rounded-full moon opacity-80 pointer-events-none z-0"></div>
-    <div class="rocket text-4xl sm:text-5xl opacity-80"><i class="fa-solid fa-rocket text-rose-400"></i></div>
+    <!-- Background Elements -->
+    <div id="floating-container"></div>
 
-    <!-- Floating Particles Container -->
-    <div id="heart-container"></div>
-
-    <!-- Audio Player (เรียกไฟล์ music.mp3) -->
+    <!-- Audio Player (ดึงไฟล์ music.mp3) -->
     <audio id="bg-music" loop preload="auto">
         <source src="music.mp3" type="audio/mp3">
     </audio>
 
-    <!-- Top Music Player & Controls -->
+    <!-- Top Controls Header -->
     <header class="w-full max-w-2xl z-20 flex justify-between items-center mb-6">
         <div class="flex items-center space-x-3 glass-card px-4 py-2 rounded-full">
             <div id="music-disc" class="w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center text-white text-xs">
                 <i class="fa-solid fa-music"></i>
             </div>
             <div>
-                <p class="text-xs text-rose-200 font-semibold leading-tight">A ROCKET TO THE MOON 🚀</p>
-                <p class="text-[10px] text-gray-300">GAVIN.D</p>
+                <p class="text-xs text-rose-900 font-bold leading-tight">A ROCKET TO THE MOON 🚀</p>
+                <p class="text-[10px] text-rose-700">GAVIN.D</p>
             </div>
         </div>
 
-        <button id="music-btn" onclick="toggleAudio()" class="glass-card hover:bg-white/20 p-3 rounded-full text-rose-300 transition-all duration-300">
+        <button id="music-btn" onclick="toggleAudio(event)" class="glass-card hover:bg-white/50 p-3 rounded-full text-rose-600 transition-all duration-300">
             <i id="music-icon" class="fa-solid fa-play text-lg"></i>
         </button>
     </header>
 
     <!-- Main Content -->
-    <main class="w-full max-w-md flex flex-col items-center z-10 space-y-8 my-auto">
+    <main class="w-full max-w-md flex flex-col items-center z-10 space-y-6 my-auto">
 
-        <!-- Title -->
+        <!-- Title & Pig Mascot -->
         <div class="text-center space-y-2">
-            <h1 class="text-3xl sm:text-4xl font-bold font-mali text-transparent bg-clip-text bg-gradient-to-r from-rose-300 via-pink-200 to-purple-300 drop-shadow">
-                ขึ้นยานอวกาศไปด้วยกันนะ 🌙✨
+            <!-- Strawberry Pig Mascot Header -->
+            <div class="relative w-24 h-24 mx-auto mb-2 transition hover:scale-110">
+                <img src="pig.png" alt="Strawberry Pig" class="w-full h-full object-contain drop-shadow-md">
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-bold font-mali text-rose-700 drop-shadow-sm">
+                หวานใจหมูสตรอว์เบอร์รี 🍓🐷
             </h1>
-            <p class="text-xs sm:text-sm text-pink-200/80">แตะที่ซองจดหมายเพื่อเปิดอ่านความในใจนะคนดี</p>
+            <p class="text-xs sm:text-sm text-rose-800 font-medium animate-pulse">👇 แตะที่ซองจดหมายเพื่อฟังเพลงและเปิดอ่านความในใจนะคนดี 👇</p>
         </div>
 
         <!-- Envelope & Letter Section -->
-        <div class="envelope-wrapper my-6">
-            <div id="envelope" class="envelope" onclick="openEnvelope()">
+        <div class="envelope-wrapper my-4">
+            <div id="envelope" class="envelope" onclick="openEnvelope(event)">
                 <div class="envelope-flap"></div>
-                <!-- Heart Seal -->
-                <div id="heart-seal" class="absolute top-12 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-rose-100 text-4xl drop-shadow-md transition-transform duration-300 hover:scale-125">
-                    <i class="fa-solid fa-heart"></i>
+                <!-- Strawberry Seal -->
+                <div id="heart-seal" class="absolute top-12 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-4xl drop-shadow-md transition-transform duration-300 hover:scale-125">
+                    🍓
                 </div>
 
                 <!-- Letter Content -->
                 <div class="letter glass-card-light font-mali">
                     <div class="flex justify-between items-center border-b border-rose-200 pb-2 mb-3">
-                        <span class="text-xs font-bold text-rose-500"><i class="fa-solid fa-envelope-open-text mr-1"></i> ถึงเธอ...คนพิเศษ</span>
+                        <span class="text-xs font-bold text-rose-600"><i class="fa-solid fa-envelope-open-text mr-1"></i> ถึงพี่แก้ว...คนพิเศษ 🍓</span>
                         <button onclick="editMessage(event)" class="text-gray-400 hover:text-rose-500 text-xs">
                             <i class="fa-solid fa-pen-to-square"></i> แก้ไข
                         </button>
@@ -249,58 +228,57 @@
                     <p id="typed-text" class="text-xs sm:text-sm text-gray-700 leading-relaxed font-normal whitespace-pre-line"></p>
                     
                     <div class="mt-4 pt-2 border-t border-rose-100 text-right">
-                        <span class="text-xs font-bold text-rose-400">รักเธอที่สุดในโลกเลย ❤️</span>
+                        <span class="text-xs font-bold text-rose-500">รักพี่แก้วที่สุดเลย ❤️</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Couple Photo Box -->
-        <div class="glass-card p-4 rounded-2xl w-full flex flex-col items-center space-y-3 shadow-2xl transition hover:scale-[1.01]">
-            <div class="bg-white p-3 rounded-xl shadow-inner w-full max-w-[280px]">
-                <!-- เรียกไฟล์ image.png -->
-                <img id="couple-img" src="image.png" alt="Our Special Moment" class="rounded-lg w-full h-64 object-cover">
-                <p class="text-center font-mali text-rose-500 font-bold text-sm mt-2">You & Me 💖</p>
+        <div class="glass-card p-4 rounded-3xl w-full flex flex-col items-center space-y-3 shadow-xl transition hover:scale-[1.01]">
+            <div class="bg-white p-3 rounded-2xl shadow-inner w-full max-w-[280px] border-2 border-pink-200">
+                <img id="couple-img" src="image.png" alt="Our Special Moment" class="rounded-xl w-full h-64 object-cover">
+                <p class="text-center font-mali text-rose-500 font-bold text-sm mt-2">You & Me 🍓🐷</p>
             </div>
 
             <!-- Love Days Counter -->
-            <div class="w-full text-center space-y-1 pt-2">
-                <p class="text-xs text-rose-200 font-light">พวกเราเดินทางท่องอวกาศร่วมกันมาแล้ว</p>
-                <div id="timer" class="text-lg sm:text-xl font-bold font-mali text-amber-300 tracking-wider">
+            <div class="w-full text-center space-y-1 pt-1">
+                <p class="text-xs text-rose-800 font-medium">พวกเราเติบโตและมีความสุขร่วมกันมาแล้ว</p>
+                <div id="timer" class="text-lg sm:text-xl font-bold font-mali text-rose-600 tracking-wider">
                     0 วัน 0 ชั่วโมง 0 นาที 0 วินาที
                 </div>
-                <p class="text-[10px] text-pink-200/60 font-mali">เริ่มคบกัน: 21 กันยายน 2569 เวลา 00:50 น.</p>
+                <p class="text-[10px] text-rose-700/80 font-mali">เริ่มคบกัน: 21 กันยายน 2569 เวลา 00:50 น.</p>
             </div>
         </div>
 
         <!-- Interactive Buttons -->
         <div class="flex space-x-4 w-full">
-            <button onclick="showSecretModal()" class="flex-1 glass-card hover:bg-rose-500/20 py-3 rounded-xl font-mali text-xs sm:text-sm text-rose-200 transition-all flex items-center justify-center space-x-2 border border-rose-300/30">
-                <i class="fa-solid fa-key text-amber-300"></i>
-                <span>ดูความลับพิเศษ</span>
+            <button onclick="showSecretModal()" class="flex-1 glass-card hover:bg-white/60 py-3 rounded-2xl font-mali text-xs sm:text-sm text-rose-700 transition-all flex items-center justify-center space-x-2 border border-rose-300">
+                <i class="fa-solid fa-key text-amber-500"></i>
+                <span>ความลับหมูสตรอว์เบอร์รี</span>
             </button>
-            <button onclick="triggerHeartShower()" class="flex-1 glass-card hover:bg-rose-500/20 py-3 rounded-xl font-mali text-xs sm:text-sm text-rose-200 transition-all flex items-center justify-center space-x-2 border border-rose-300/30">
-                <i class="fa-solid fa-heart-pulse text-rose-400"></i>
-                <span>ส่งความรัก ❤️</span>
+            <button onclick="triggerHeartShower()" class="flex-1 glass-card hover:bg-white/60 py-3 rounded-2xl font-mali text-xs sm:text-sm text-rose-700 transition-all flex items-center justify-center space-x-2 border border-rose-300">
+                <i class="fa-solid fa-heart-pulse text-rose-500"></i>
+                <span>ส่งความรัก 🍓</span>
             </button>
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="z-10 text-center py-4 text-[11px] text-gray-400 font-light">
-        Made with ❤️ for someone special • A Rocket to the Moon
+    <footer class="z-10 text-center py-4 text-[11px] text-rose-800 font-medium">
+        Made with ❤️ Strawberry Piggy Theme • A Rocket to the Moon
     </footer>
 
     <!-- Secret Modal -->
-    <div id="secret-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-card-light max-w-sm w-full p-6 rounded-2xl text-center space-y-4 font-mali relative">
-            <div class="text-4xl text-rose-500"><i class="fa-solid fa-moon"></i></div>
-            <h3 class="text-lg font-bold text-rose-600">ความลับเล็กๆ ของหัวใจ</h3>
-            <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                "ต่อให้ดาวดวงอื่นจะสว่างแค่ไหน แต่สำหรับเค้า เธอคือดวงจันทร์ดวงเดียวที่สว่างและสวยงามที่สุดในจักรวาลของเค้านะครับ" 🚀✨
+    <div id="secret-modal" class="fixed inset-0 bg-rose-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass-card-light max-w-sm w-full p-6 rounded-3xl text-center space-y-4 font-mali relative border-2 border-pink-300">
+            <div class="w-16 h-16 mx-auto"><img src="pig.png" class="w-full h-full object-contain"></div>
+            <h3 class="text-lg font-bold text-rose-600">ความลับเล็กๆ ของหัวใจ 🍓</h3>
+            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                "ถึงจะงอแงเหมือนหมู หรือหวานเหมือนสตรอว์เบอร์รี แต่เธอคือความสุขดวงเดียวของเค้านะครับ รักพี่แก้วที่สุดเลย!" 🐷💖
             </p>
-            <button onclick="closeSecretModal()" class="w-full bg-rose-500 hover:bg-rose-600 text-white py-2 rounded-xl text-xs font-semibold shadow-md transition">
+            <button onclick="closeSecretModal()" class="w-full bg-rose-500 hover:bg-rose-600 text-white py-2.5 rounded-xl text-xs font-semibold shadow-md transition">
                 งิ้ววว ~ เข้าใจแล้ว ❤️
             </button>
         </div>
@@ -308,23 +286,38 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // ตั้งค่าวันที่คบกันเป็น 21 ก.ย. 2026 (2569) เวลา 00:50 น.
         const startDate = new Date('2026-09-21T00:50:00');
         let isAudioPlaying = false;
         let isEnvelopeOpen = false;
         const audioElement = document.getElementById('bg-music');
 
-        let loveMessage = `ขึ้นยานอวกาศ และเดินทางสู่จันทราไปด้วยกันนะ...
+        let loveMessage = `เค้ารักเธอมากๆ ตั้งเเต่วันเเรกที่คุยจนถึงคบยังรักเหมือนเดิมไม่มีวันน้อยลง
 
-ขอบคุณที่เข้ามาเป็นเรื่องราวที่สวยงามที่สุดในชีวิตเค้านะครับ ทุกๆ วันที่มีเธออยู่ด้วย มันมีความหมายและมีความสุขมากๆ เลย 
+ก่อนหน้านี้ก็มีไม่เข้าใจกันบ้าง เเต่เค้าจะรักษาเธอไว้ให้นานที่สุด
 
-สัญญาว่าจะดูแลและรักเธอให้ดีที่สุดในทุกๆ วันนะครับ 💕`;
+รักพี่เเก้วที่สุดเลย 💕🍓🐷`;
 
         if (localStorage.getItem('customLoveMessage')) {
             loveMessage = localStorage.getItem('customLoveMessage');
         }
 
-        function toggleAudio() {
+        function playAudio() {
+            if (!isAudioPlaying) {
+                audioElement.play().then(() => {
+                    document.getElementById('music-icon').className = "fa-solid fa-pause text-lg";
+                    document.getElementById('music-disc').classList.add('animate-spin');
+                    isAudioPlaying = true;
+                }).catch(err => console.log("Audio play failed:", err));
+            }
+        }
+
+        function handleFirstTouch(e) {
+            createClickHeart(e);
+            playAudio();
+        }
+
+        function toggleAudio(e) {
+            if (e) e.stopPropagation();
             const musicIcon = document.getElementById('music-icon');
             const musicDisc = document.getElementById('music-disc');
 
@@ -334,17 +327,14 @@
                 musicDisc.classList.remove('animate-spin');
                 isAudioPlaying = false;
             } else {
-                audioElement.play().then(() => {
-                    musicIcon.className = "fa-solid fa-pause text-lg";
-                    musicDisc.classList.add('animate-spin');
-                    isAudioPlaying = true;
-                }).catch(err => {
-                    console.log("Audio play failed: ", err);
-                });
+                playAudio();
             }
         }
 
-        function openEnvelope() {
+        function openEnvelope(e) {
+            if (e) e.stopPropagation();
+            playAudio();
+
             if (isEnvelopeOpen) return;
             isEnvelopeOpen = true;
 
@@ -353,10 +343,6 @@
             
             envelope.classList.add('open');
             heartSeal.style.display = 'none';
-
-            if (!isAudioPlaying) {
-                toggleAudio();
-            }
 
             setTimeout(() => {
                 typeWriterEffect();
@@ -418,33 +404,33 @@
             document.getElementById('secret-modal').classList.add('hidden');
         }
 
-        function createBackgroundHearts() {
-            const container = document.getElementById('heart-container');
-            const heartIcons = ['❤️', '💖', '✨', '🌙', '🚀', '💕'];
+        function createBackgroundElements() {
+            const container = document.getElementById('floating-container');
+            const items = ['🍓', '🐷', '💖', '🌸', '✨'];
 
             for (let i = 0; i < 25; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                const item = document.createElement('div');
+                item.className = 'floating-item';
+                item.innerText = items[Math.floor(Math.random() * items.length)];
                 
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 5 + 6) + 's';
-                heart.style.animationDelay = (Math.random() * 5) + 's';
-                heart.style.fontSize = (Math.random() * 15 + 12) + 'px';
+                item.style.left = Math.random() * 100 + 'vw';
+                item.style.animationDuration = (Math.random() * 5 + 6) + 's';
+                item.style.animationDelay = (Math.random() * 5) + 's';
+                item.style.fontSize = (Math.random() * 15 + 14) + 'px';
 
-                container.appendChild(heart);
+                container.appendChild(item);
             }
         }
-        createBackgroundHearts();
+        createBackgroundElements();
 
         function createClickHeart(e) {
             if (e.target.closest('button') || e.target.closest('input')) return;
 
-            const hearts = ['❤️', '💖', '💕', '✨'];
+            const items = ['🍓', '🐷', '💖', '✨'];
             for (let i = 0; i < 6; i++) {
                 const particle = document.createElement('div');
-                particle.className = 'heart-particle text-sm';
-                particle.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                particle.className = 'heart-particle text-base';
+                particle.innerText = items[Math.floor(Math.random() * items.length)];
                 
                 particle.style.left = e.clientX + 'px';
                 particle.style.top = e.clientY + 'px';
@@ -461,18 +447,18 @@
         }
 
         function triggerHeartShower() {
-            const container = document.getElementById('heart-container');
+            const container = document.getElementById('floating-container');
             for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'floating-heart';
-                    heart.innerText = '💖';
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.animationDuration = '3s';
-                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                    container.appendChild(heart);
+                    const item = document.createElement('div');
+                    item.className = 'floating-item';
+                    item.innerText = i % 2 === 0 ? '🍓' : '🐷';
+                    item.style.left = Math.random() * 100 + 'vw';
+                    item.style.animationDuration = '3s';
+                    item.style.fontSize = (Math.random() * 20 + 18) + 'px';
+                    container.appendChild(item);
 
-                    setTimeout(() => heart.remove(), 3000);
+                    setTimeout(() => item.remove(), 3000);
                 }, i * 100);
             }
         }
