@@ -34,7 +34,7 @@
         }
 
         .glass-card-light {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.5);
             color: #334155;
@@ -177,7 +177,6 @@
             }
         }
         
-        /* Custom Scrollbar for letter */
         .letter::-webkit-scrollbar {
             width: 4px;
         }
@@ -196,6 +195,11 @@
     <!-- Floating Particles Container -->
     <div id="heart-container"></div>
 
+    <!-- Audio Player (ตรงตามชื่อไฟล์ในคอมพิวเตอร์) -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="GAVIN.D - A ROCKET TO THE MOON「Official MV」.mp3" type="audio/mp3">
+    </audio>
+
     <!-- Top Music Player & Controls -->
     <header class="w-full max-w-2xl z-20 flex justify-between items-center mb-6">
         <div class="flex items-center space-x-3 glass-card px-4 py-2 rounded-full">
@@ -204,7 +208,7 @@
             </div>
             <div>
                 <p class="text-xs text-rose-200 font-semibold leading-tight">A ROCKET TO THE MOON 🚀</p>
-                <p class="text-[10px] text-gray-300">GAVIN.D</p>
+                <p class="text-[10px] text-gray-300">GAVIN.D (Official Audio)</p>
             </div>
         </div>
 
@@ -212,12 +216,6 @@
             <i id="music-icon" class="fa-solid fa-play text-lg"></i>
         </button>
     </header>
-
-    <!-- YouTube Hidden Audio Player -->
-    <iframe id="youtube-player" class="hidden" width="100" height="100" 
-            src="https://www.youtube.com/embed/3aCctY3DGac?enablejsapi=1&autoplay=0&loop=1&playlist=3aCctY3DGac" 
-            allow="autoplay">
-    </iframe>
 
     <!-- Main Content -->
     <main class="w-full max-w-md flex flex-col items-center z-10 space-y-8 my-auto">
@@ -257,11 +255,11 @@
             </div>
         </div>
 
-        <!-- Couple Photo Polarized Box -->
+        <!-- Couple Photo Box -->
         <div class="glass-card p-4 rounded-2xl w-full flex flex-col items-center space-y-3 shadow-2xl transition hover:scale-[1.01]">
             <div class="bg-white p-3 rounded-xl shadow-inner w-full max-w-[280px]">
-                <!-- User Couple Image -->
-                <img id="couple-img" src="https://raw.githubusercontent.com/pesatwongfightstore-lgtm/lastname_Originalxstboss/refs/heads/main/image.jpg" alt="Our Special Moment" class="rounded-lg w-full h-64 object-cover">
+                <!-- เรียกไฟล์ image.png ตรงตามในคอม -->
+                <img id="couple-img" src="image.png" alt="Our Special Moment" class="rounded-lg w-full h-64 object-cover">
                 <p class="text-center font-mali text-rose-500 font-bold text-sm mt-2">You & Me 💖</p>
             </div>
 
@@ -271,9 +269,7 @@
                 <div id="timer" class="text-lg sm:text-xl font-bold font-mali text-amber-300 tracking-wider">
                     0 วัน 0 ชั่วโมง 0 นาที 0 วินาที
                 </div>
-                <button onclick="changeStartDate()" class="text-[10px] text-gray-400 underline hover:text-rose-300">
-                    เปลี่ยนวันที่เริ่มคบกัน
-                </button>
+                <p class="text-[10px] text-pink-200/60 font-mali">เริ่มคบกัน: 21 กันยายน 2569 เวลา 00:50 น.</p>
             </div>
         </div>
 
@@ -312,67 +308,42 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // Default Settings
-        let startDate = new Date('2023-01-01T00:00:00'); // Default start date
+        // ตั้งค่าวันที่คบกันเป็น 21 ก.ย. 2026 (2569) เวลา 00:50 น.
+        const startDate = new Date('2026-09-21T00:50:00');
         let isAudioPlaying = false;
         let isEnvelopeOpen = false;
-        let ytPlayer;
+        const audioElement = document.getElementById('bg-music');
 
-        // Message Content
         let loveMessage = `ขึ้นยานอวกาศ และเดินทางสู่จันทราไปด้วยกันนะ...
 
 ขอบคุณที่เข้ามาเป็นเรื่องราวที่สวยงามที่สุดในชีวิตเค้านะครับ ทุกๆ วันที่มีเธออยู่ด้วย มันมีความหมายและมีความสุขมากๆ เลย 
 
 สัญญาว่าจะดูแลและรักเธอให้ดีที่สุดในทุกๆ วันนะครับ 💕`;
 
-        // Load saved state
-        if (localStorage.getItem('loveStartDate')) {
-            startDate = new Date(localStorage.getItem('loveStartDate'));
-        }
         if (localStorage.getItem('customLoveMessage')) {
             loveMessage = localStorage.getItem('customLoveMessage');
         }
 
-        // YouTube Iframe API Loader
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        function onYouTubeIframeAPIReady() {
-            ytPlayer = new YT.Player('youtube-player', {
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            // Player is ready
-        }
-
-        // Toggle Audio
         function toggleAudio() {
-            const musicBtn = document.getElementById('music-btn');
             const musicIcon = document.getElementById('music-icon');
             const musicDisc = document.getElementById('music-disc');
 
-            if (!ytPlayer) return;
-
             if (isAudioPlaying) {
-                ytPlayer.pauseVideo();
+                audioElement.pause();
                 musicIcon.className = "fa-solid fa-play text-lg";
                 musicDisc.classList.remove('animate-spin');
                 isAudioPlaying = false;
             } else {
-                ytPlayer.playVideo();
-                musicIcon.className = "fa-solid fa-pause text-lg";
-                musicDisc.classList.add('animate-spin');
-                isAudioPlaying = true;
+                audioElement.play().then(() => {
+                    musicIcon.className = "fa-solid fa-pause text-lg";
+                    musicDisc.classList.add('animate-spin');
+                    isAudioPlaying = true;
+                }).catch(err => {
+                    console.log("Audio play failed: ", err);
+                });
             }
         }
 
-        // Open Envelope & Typewriter Effect
         function openEnvelope() {
             if (isEnvelopeOpen) return;
             isEnvelopeOpen = true;
@@ -383,12 +354,10 @@
             envelope.classList.add('open');
             heartSeal.style.display = 'none';
 
-            // Auto play music when opening envelope
             if (!isAudioPlaying) {
                 toggleAudio();
             }
 
-            // Start Typing Effect
             setTimeout(() => {
                 typeWriterEffect();
             }, 800);
@@ -409,7 +378,6 @@
             typeNextChar();
         }
 
-        // Edit Love Message
         function editMessage(e) {
             e.stopPropagation();
             const newMessage = prompt("พิมพ์ข้อความบอกรักใหม่ที่คุณต้องการ:", loveMessage);
@@ -422,10 +390,14 @@
             }
         }
 
-        // Love Days Counter
         function updateTimer() {
             const now = new Date();
             const diff = now - startDate;
+
+            if (diff < 0) {
+                document.getElementById('timer').innerText = "กำลังจะถึงวันสำคัญของเราเร็วๆ นี้ ❤️";
+                return;
+            }
 
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -438,21 +410,6 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        function changeStartDate() {
-            const inputDate = prompt("ใส่วันที่เริ่มคบกัน (รูปแบบ YYYY-MM-DD):", "2023-01-01");
-            if (inputDate) {
-                const newDate = new Date(inputDate);
-                if (!isNaN(newDate)) {
-                    startDate = newDate;
-                    localStorage.setItem('loveStartDate', newDate.toISOString());
-                    updateTimer();
-                } else {
-                    alert("รูปแบบวันที่ไม่ถูกต้อง กรุณาใส่แบบ YYYY-MM-DD เช่น 2023-05-20");
-                }
-            }
-        }
-
-        // Secret Modal
         function showSecretModal() {
             document.getElementById('secret-modal').classList.remove('hidden');
         }
@@ -461,7 +418,6 @@
             document.getElementById('secret-modal').classList.add('hidden');
         }
 
-        // Background Hearts Generation
         function createBackgroundHearts() {
             const container = document.getElementById('heart-container');
             const heartIcons = ['❤️', '💖', '✨', '🌙', '🚀', '💕'];
@@ -481,9 +437,7 @@
         }
         createBackgroundHearts();
 
-        // Click Heart Animation FX
         function createClickHeart(e) {
-            // Prevent heart effect on buttons/inputs to avoid clutter
             if (e.target.closest('button') || e.target.closest('input')) return;
 
             const hearts = ['❤️', '💖', '💕', '✨'];
@@ -506,7 +460,6 @@
             }
         }
 
-        // Heart Shower Button FX
         function triggerHeartShower() {
             const container = document.getElementById('heart-container');
             for (let i = 0; i < 30; i++) {
