@@ -159,12 +159,13 @@
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between min-h-screen p-4 sm:p-6 relative select-none" onclick="handleFirstTouch(event)">
+<body class="flex flex-col items-center justify-between min-h-screen p-4 sm:p-6 relative select-none" onclick="createClickHeart(event)">
 
     <div id="floating-container"></div>
 
-    <!-- ไฟล์เพลงใช้ชื่อ music.mp3 -->
+    <!-- ไฟล์เพลง -->
     <audio id="bg-music" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
         <source src="music.mp3" type="audio/mp3">
     </audio>
 
@@ -194,11 +195,12 @@
             <h1 class="text-3xl sm:text-4xl font-bold font-mali text-rose-700 drop-shadow-sm">
                 หวานใจหมูสตรอว์เบอร์รี 🍓🐷
             </h1>
-            <p class="text-xs sm:text-sm text-rose-800 font-medium animate-pulse">👇 แตะที่ซองจดหมายเพื่อฟังเพลงและเปิดอ่านความในใจนะคนดี 👇</p>
+            <p class="text-xs sm:text-sm text-rose-800 font-medium animate-pulse">👇 แตะเปิดซองจดหมายเพื่อฟังเพลงและอ่านข้อความนะคนดี 👇</p>
         </div>
 
+        <!-- ซองจดหมาย: แตะแล้วเล่นเพลง + เปิดจดหมายทันที -->
         <div class="envelope-wrapper my-4">
-            <div id="envelope" class="envelope" onclick="openEnvelope(event)">
+            <div id="envelope" class="envelope" onclick="openEnvelopeAndPlay(event)">
                 <div class="envelope-flap"></div>
                 <div id="heart-seal" class="absolute top-12 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-4xl drop-shadow-md transition-transform duration-300 hover:scale-125">
                     🍓
@@ -264,7 +266,6 @@
     </div>
 
     <script>
-        // ล้างความจำเดิมเพื่อบังคับใช้ข้อความใหม่ทันที
         localStorage.removeItem('customLoveMessage');
 
         const startDate = new Date('2026-09-21T00:50:00');
@@ -274,19 +275,15 @@
 
         const loveMessage = `เค้ารักเธอมากๆตั้งเเต่วันเเรกที่คุยจนถึงคบยังรักเหมือนเดิมไม่มีวันน้อยลงก่อนหน้านี้ก็มีไม่เข้าใจกันบ้างเเต่เค้าจะรักษาเธอไว้ให้นานที่สุด รักพี่เเก้วที่สุดเลย 💕🍓🐷`;
 
-        function playAudio() {
-            if (!isAudioPlaying) {
-                audioElement.play().then(() => {
-                    document.getElementById('music-icon').className = "fa-solid fa-pause text-lg";
-                    document.getElementById('music-disc').classList.add('animate-spin');
-                    isAudioPlaying = true;
-                }).catch(err => console.log("Audio play failed:", err));
-            }
-        }
-
-        function handleFirstTouch(e) {
-            createClickHeart(e);
-            playAudio();
+        // ฟังก์ชันเล่นเพลงแบบบังคับรันเมื่อมีกิจกรรมการกดของผู้ใช้
+        function playMusic() {
+            audioElement.play().then(() => {
+                document.getElementById('music-icon').className = "fa-solid fa-pause text-lg";
+                document.getElementById('music-disc').classList.add('animate-spin');
+                isAudioPlaying = true;
+            }).catch(err => {
+                console.log("Audio playback error:", err);
+            });
         }
 
         function toggleAudio(e) {
@@ -300,13 +297,16 @@
                 musicDisc.classList.remove('animate-spin');
                 isAudioPlaying = false;
             } else {
-                playAudio();
+                playMusic();
             }
         }
 
-        function openEnvelope(e) {
+        // ฟังก์ชันเมื่อกดซองจดหมาย: เปิดจดหมาย + เล่นเพลงทันที
+        function openEnvelopeAndPlay(e) {
             if (e) e.stopPropagation();
-            playAudio();
+
+            // เล่นเพลงทันทีที่กดซองจดหมาย
+            playMusic();
 
             if (isEnvelopeOpen) return;
             isEnvelopeOpen = true;
